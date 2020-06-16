@@ -1,0 +1,97 @@
+<script src="./vis/lib/lodash.min.js"></script>
+<script src="./vis/circle-packing/circle-packing-convert.js"></script>
+<link rel="stylesheet" type="text/css" href="./vis/circle-packing/circle-packing.css">
+
+<div id ="$container" class="circle-packing"></div>
+
+<script>
+var w = 800, h = 800, margin = 20;
+
+var data = "$circle_data";
+
+var csvData = d3.csvParse(data);
+
+var svg = d3.select("#$container").append("svg:svg")    
+    .attr("width", w)
+    .attr("height", h),
+    diameter = +svg.attr("width"),
+    g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")"),
+    format = d3.format(",d");
+
+var pack = d3.pack()
+    .size([diameter - margin, diameter - margin]);
+
+var root = convert(csvData);
+
+root = d3.hierarchy(root)
+    .sum(function (d) {
+        return d.size;
+    })
+    .sort(function (a, b) {
+        return b.value - a.value;
+    });
+
+var focusElem = root,
+nodes = pack(root).descendants(),
+view;
+
+var node = g.selectAll(".node")
+    .data(pack(root).descendants())
+    .enter().append("g")
+    .attr("class", function (d) {
+        return d.children ? "node" : "leaf node";
+    })
+    .attr("transform", function (d) {
+        return "translate(" + d.x + "," + d.y + ")";
+    });
+
+node.append("title")
+    .text(function (d) {
+        return d.data.name + "\n" + format(d.value);
+    });
+
+node.append("circle")
+    .attr("r", function (d) {
+        return d.r;
+    })
+    .on("click", function(d) { if (focusElem !== d) zoom(d), d3.event.stopPropagation(); });
+
+var circle = g.selectAll("circle");
+
+var text = g.selectAll("text")
+    .data(nodes)
+    .enter().append("text")
+        .attr("class", "label")
+        .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
+        .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
+        .text(function(d) { return d.data.name; });
+
+var node = g.selectAll(".node,text");
+svg
+  .on("click", function() { zoom(root); });
+
+    zoomTo([root.x, root.y, root.r * 2 + margin]);
+
+function zoom(d) {
+    var focus0 = focusElem; focusElem = d;
+
+    var transition = d3.transition()
+        .duration(d3.event.altKey ? 7500 : 750)
+        .tween("zoom", function(d) {
+          var i = d3.interpolateZoom(view, [focusElem.x, focusElem.y, focusElem.r * 2 + margin]);
+          return function(t) { zoomTo(i(t)); };
+        });
+
+    transition.selectAll("text")
+      .filter(function(d) { return d.parent === focusElem || this.style.display === "inline"; })
+        .style("fill-opacity", function(d) { return d.parent === focusElem ? 1 : 0; })
+        .on("start", function(d) { if (d.parent === focusElem) this.style.display = "inline"; })
+        .on("end", function(d) { if (d.parent !== focusElem) this.style.display = "none"; });
+}
+
+function zoomTo(v) {
+    var k = diameter / v[2]; view = v;
+    node.attr("transform", function(d) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
+    circle.attr("r", function(d) { return d.r * k; });
+}
+</script>
