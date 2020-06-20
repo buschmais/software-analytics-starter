@@ -16,10 +16,10 @@ function chordMpr (data) {
   },
   mpr.getMatrix = function () {
     matrix = [];
-    _.each(mmap, function (a) {
+    _.each(mmap, function (a) {      
       if (!matrix[a.id]) matrix[a.id] = [];
-      _.each(mmap, function (b) {
-       var recs = _.filter(data, function (row) {         
+      _.each(mmap, function (b) {        
+       var recs = _.filter(data, function (row) {              
           return filter(row, a, b);
         })
         matrix[a.id][b.id] = accessor(recs, a, b);

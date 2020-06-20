@@ -14,6 +14,7 @@ require(['d3'], function (d3) {
 
     mpr
       .addValuesToMap("Source")
+      .addValuesToMap("Target")
       .setFilter(function (row, a, b) {
         return (row.Source === a.name && row.Target === b.name)
       })
