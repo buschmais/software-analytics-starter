@@ -11,3 +11,4 @@ pygal
 plotly
 holoviews
 bokeh
+rise
