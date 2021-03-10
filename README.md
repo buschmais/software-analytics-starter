@@ -1,4 +1,4 @@
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/StephanPirnbaum/software-analytics-starter/master)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/buschmais/software-analytics-starter/master)
 
 # software-analytics-starter
 
@@ -7,6 +7,8 @@ This is a starter project for Software Analytics with jQAssistant, Neo4j, Jupyte
 ## Example Project
 
 This starter uses the shopizer e-Commerce Shop System (Version 2.12.0) for analysis. It was only modified in the way that jQAssistant was added. The link to the fork can be found in the "resources" section.
+
+The analytics notebooks are structured based on the Software Analytics Canvas created by Markus Harrer. The link to his blog post can be found in the "resources" section.
 
 ## How to Use
 
@@ -17,6 +19,7 @@ Once ready, you can open the Jupyter Notebooks, execute the given queries, write
 
 ## Resources
 
+* [Software Analytics Canvas](https://www.feststelltaste.de/software-analytics-canvas/)
 * [Software-Analyse und -Visualisierung mit Python](https://github.com/softvis-research/BeLL)
 * [Binder and Neo4j Integration](https://github.com/psychemedia/binder-neo4j)
 * [Shopizer Fork](https://github.com/StephanPirnbaum/shopizer)
