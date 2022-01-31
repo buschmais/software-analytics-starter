@@ -3,7 +3,7 @@ pandas==0.23.4
 matplotlib
 neo4j
 py2neo
-notebook==5.5
+notebook==6.1.5
 jupyter_dashboards
 tornado==5.1.1
 ipython-cypher
