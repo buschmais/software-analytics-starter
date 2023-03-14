@@ -2,6 +2,8 @@
 #          jupyter/jupyterlab extensions/kernels              #
 ###############################################################
 jupyter-server-proxy
+jupyterlab-plotly
+jupyterlab-dash
 rise
 
 ###############################################################
